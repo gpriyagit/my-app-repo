@@ -29,10 +29,10 @@ pipeline {
             steps {
                 script {
                     // Stop and remove the existing container if it exists
-                    sh 'docker ps -q -f name=my-app-container | xargs -r docker stop | xargs -r docker rm'
+                    sh 'sudo docker ps -q -f name=my-app-container | xargs -r docker stop | xargs -r docker rm'
 
                     // Run the new container
-                    sh 'docker run -d -p 3000:$DOCKER_PORT --name my-app-container $DOCKER_REGISTRY/$DOCKER_IMAGE:$DOCKER_TAG'
+                    sh 'sudo docker run -d -p 3000:$DOCKER_PORT --name my-app-container $DOCKER_REGISTRY/$DOCKER_IMAGE:$DOCKER_TAG'
                 }
             }
         }
@@ -41,7 +41,7 @@ pipeline {
             steps {
                 script {
                     // Clean up unused Docker images
-                    sh 'docker system prune -f'
+                    sh 'sudo docker system prune -f'
                 }
             }
         }
@@ -50,7 +50,7 @@ pipeline {
     post {
         always {
             // Clean up containers and images after the pipeline runs
-            sh 'docker ps -q -f name=my-app-container | xargs -r docker stop | xargs -r docker rm'
+            sh 'sudo docker ps -q -f name=my-app-container | xargs -r docker stop | xargs -r docker rm'
         }
     }
 }
