@@ -24,7 +24,16 @@ pipeline {
                 }
             }
         }
-        
+
+        stage('Push to Docker Hub') {
+            steps {
+                withDockerRegistry([credentialsId: 'dockerhub-creds', url: '']) {
+                    script {
+                        docker.image("${DOCKER_HUB_USER}/${IMAGE_NAME}").push('latest')
+                    }
+                }
+            }
+        }
         stage('Run Docker Container') {
             steps {
                 script {
