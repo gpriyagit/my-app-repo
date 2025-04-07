@@ -27,9 +27,9 @@ pipeline {
 
         stage('Push to Docker Hub') {
             steps {
-                withDockerRegistry([credentialsId: 'dockerhub-creds', url: '']) {
+                withDockerRegistry([credentialsId: 'docker-creds', url: 'https://hub.docker.com/repositories/amulyapriya']) {
                     script {
-                        docker.image("${DOCKER_HUB_USER}/${IMAGE_NAME}").push('latest')
+                        docker.image("${DOCKER_HUB_USER}/${IMAGE_NAME}").push('v1')
                     }
                 }
             }
